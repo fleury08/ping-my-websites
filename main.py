@@ -13,15 +13,16 @@ def main(_args):
 
 
 def ping_websites(pingers, delay, emailer):
+    import datetime
     threading.Timer(delay*1.0, ping_websites, [pingers, delay, emailer]).start()
     results = [pinger.ping() for pinger in pingers]
     for result in results:
         if not result.success:
-            message = "Address {} not responding".format(result.website["url"])
+            message = "[{}] Address {} not responding".format(datetime.datetime.now(),result.website["url"])
             print(message)
             emailer.send_email(result.website["email_to"], message, result.response)
         else:
-            message = "OK {}".format(result.website["url"])
+            message = "[{}] OK {}".format(datetime.datetime.now(),result.website["url"])
             print(message)
 
 
