@@ -3,11 +3,10 @@ class Pinger:
 	def __init__(self, _website):
 		self.website = _website
 		self.success = False
-		self.response = None
+		self.response = ""
 
 	def ping(self, website=None):
 		from urllib import request
-		from urllib import error
 		_to_ping = website["url"] if website else self.website["url"]
 		try:
 			self.response = request.urlopen(_to_ping)
