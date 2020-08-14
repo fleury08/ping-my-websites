@@ -7,22 +7,22 @@ from simple_email_sender import EmailSender
 def main(_args):
     with open(_args.source, "r", encoding='utf-8') as f:
         _json = json.load(f)
-        pingers = [Pinger(w) for w in _json["websites"]]
-        emailer = EmailSender(_args.host, _args.port, _args.username, _args.password)
-        ping_websites(pingers, _args.delay, emailer)
+        _pingers = [Pinger(w) for w in _json["websites"]]
+        _emailer = EmailSender(_args.host, _args.port, _args.username, _args.password)
+        ping_websites(_pingers, _args.delay, _emailer)
 
 
-def ping_websites(pingers, delay, emailer):
+def ping_websites(pingers, delay, emailer: EmailSender):
     import datetime
     threading.Timer(delay*1.0, ping_websites, [pingers, delay, emailer]).start()
     results = [pinger.ping() for pinger in pingers]
     for result in results:
-        if not result.success:
-            message = "[{}] Address {} not responding".format(datetime.datetime.now(),result.website["url"])
+        if result.status_changed():
+            message = "[{}] Address {} status has changed to {}".format(datetime.datetime.now(), result.website["url"], "RUNNING" if result.success else "NOT RESPONDING")
             print(message)
             emailer.send_email(result.website["email_to"], message, result.response)
         else:
-            message = "[{}] OK {}".format(datetime.datetime.now(),result.website["url"])
+            message = "[{}] Status of {} is still {}".format(datetime.datetime.now(), result.website["url"], "RUNNING" if result.success else "NOT RESPONDING")
             print(message)
 
 
