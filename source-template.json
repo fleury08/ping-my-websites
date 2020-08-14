@@ -1,0 +1,10 @@
+{
+    "email_to": "@",
+    "websites": [
+        {
+            "url": "https://google.com/",
+            "description": "Google",
+            "email_to": "@"
+        }
+    ]
+}
