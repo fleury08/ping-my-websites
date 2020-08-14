@@ -18,6 +18,6 @@ class Pinger:
 		return self
 
 	def status_changed(self):
-		if self._prev_status:
+		if self._prev_status is not None:
 			return self._prev_status != self.success
 		return False

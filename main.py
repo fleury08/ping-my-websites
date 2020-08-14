@@ -20,7 +20,7 @@ def ping_websites(pingers, delay, emailer: EmailSender):
         if result.status_changed():
             message = "[{}] Address {} status has changed to {}".format(datetime.datetime.now(), result.website["url"], "RUNNING" if result.success else "NOT RESPONDING")
             print(message)
-            emailer.send_email(result.website["email_to"], message, result.response)
+            emailer.send_email(result.website["email_to"], message, result.response.getcode())
         else:
             message = "[{}] Status of {} is still {}".format(datetime.datetime.now(), result.website["url"], "RUNNING" if result.success else "NOT RESPONDING")
             print(message)
