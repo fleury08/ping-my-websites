@@ -11,7 +11,7 @@ class Pinger:
 		_to_ping = website["url"] if website else self.website["url"]
 		self._prev_status = self.success
 		try:
-			self.response = request.urlopen(_to_ping)
+			self.response = request.urlopen(_to_ping, timeout=1.0)
 			self.success = True
 		except Exception:
 			self.success = False

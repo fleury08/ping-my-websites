@@ -9,7 +9,7 @@ def main(_args):
         _json = json.load(f)
         _pingers = [Pinger(w) for w in _json["websites"]]
         _emailer = EmailSender(_args.host, _args.port, _args.username, _args.password)
-        ping_websites(_pingers, _args.delay, _emailer)
+        threading.Thread(target=ping_websites, args=(_pingers, _args.delay, _emailer)).start()
 
 
 def ping_websites(pingers, delay, emailer: EmailSender):
